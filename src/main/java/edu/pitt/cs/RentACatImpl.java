@@ -18,8 +18,16 @@ public class RentACatImpl implements RentACat {
 	 */
 
 	public boolean returnCat(int id) {
-		// TODO: Fill in
-		return false;
+		Cat c = getCat(id);
+		if (c != null) {			// ensure that the cat exists
+			if (c.getRented()) {    // ensure that the cat is rented
+				c.returnCat();	    // return the cat
+				System.out.println("Welcome back, " + c.getName() + "!");
+				return true;		// return true
+			}
+		}
+		System.out.println(c.getName() + " is already here!");
+		return false;				// if the cat is not rented or does not exist, return false
 	}
 
 	/**
@@ -33,8 +41,16 @@ public class RentACatImpl implements RentACat {
 	 */
 
 	public boolean rentCat(int id) {
-		// TODO: Fill in
-		return false;
+		Cat c = getCat(id); 
+		if (c != null) {          		// ensure that the cat exists
+			if (!c.getRented()) {		// ensure that the cat is not rented
+				c.rentCat();
+				System.out.println(c.getName() + " has been rented.");		
+				return true;			// return true
+			}
+		} 
+		System.out.println("Sorry, " + c.getName() + " is not here!");
+		return false;					// if the cat is not rented or does not exist, return false
 	}
 
 	/**
@@ -47,8 +63,12 @@ public class RentACatImpl implements RentACat {
 	 */
 
 	public boolean renameCat(int id, String name) {
-		// TODO: Fill in
-		return false;
+		Cat c = getCat(id); 
+		if (c != null) {          		// ensure that the cat exists
+			c.renameCat(name);			// rename the cat
+			return true;				// return true
+		}
+		return false; 					// if the cat does not exist, return false
 	}
 
 	/**
@@ -62,8 +82,13 @@ public class RentACatImpl implements RentACat {
 	 */
 
 	public String listCats() {
-		// TODO: Fill in
-		return "WRITE CODE FOR THIS";
+		StringBuilder catList = new StringBuilder();
+		for (Cat c : cats) {  			// loop through the cats
+			if (!c.getRented()) { 		// if the cat is not rented
+				catList.append("ID " + c.getId() + ". " + c.getName() + "\n"); 	// add the cat to the list
+			}
+		}
+		return catList.toString(); 		// return the list
 	}
 
 	/**
